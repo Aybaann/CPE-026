@@ -1,0 +1,120 @@
+import { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, ImageBackground, Image, ScrollView } from 'react-native';  
+export default function App() {
+  const [enteredGoalText, setEnteredGoalText] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  function goalInputHandler(enteredText) {
+    setEnteredGoalText(enteredText);
+  }
+
+  function addGoalHandler() {
+    if (enteredGoalText.trim() === '') return; 
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      enteredGoalText,
+    ]);
+    setEnteredGoalText(''); 
+  }
+
+  return (
+    <ImageBackground
+      source={require('./assets/lastC.jpg')}  
+      style={styles.background}
+    >
+      <View style={styles.appContainer}>
+        <View style={styles.titleContainer}> 
+          <Text style={styles.title}>TEAM 4</Text>
+        </View>
+
+        <Image 
+          source={require('./assets/pur.gif')} 
+          style={styles.image} 
+        />
+
+        <View style={styles.inputContainer}>
+          <TextInput 
+            onChangeText={goalInputHandler}
+            placeholder="Your Course Goal!"
+            style={styles.textInput}
+            value={enteredGoalText} 
+          />
+          <Button title="Add Goal" color="#FFD1DF" onPress={addGoalHandler} />
+        </View>
+
+        <View style={styles.goalContainer}>
+          <Text style={styles.goalList}>List of Goals</Text>
+          <ScrollView>
+            {courseGoals.map((goal, index) => (
+              <Text key={index} style={styles.goalItem}>{goal}</Text>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
+    </ImageBackground>
+  );
+}
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',  
+  },
+  titleContainer: {
+    alignItems: 'center', 
+    marginBottom: 20,     
+  },
+  title: {
+    fontSize: 30,               
+    fontWeight: 'bold',         
+    color: '#000000',           
+    padding: 5,   
+  },
+  goalList: { 
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    color: '#000000', 
+    textAlign: 'center', 
+    marginBottom: 10, 
+  },
+  image: {
+    width: 350, 
+    height: 150, 
+    marginVertical: 15, 
+    alignItem: 'center', 
+  },
+  appContainer: {
+    padding: 50,  
+    paddingHorizontal: 20,
+    flex: 1,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,  
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    width: '100%', 
+  },
+  textInput: {
+    borderColor: '#D90166',
+    backgroundColor: '#FFD1DF',
+    borderWidth: 2,
+    width: '70%',
+    marginRight: 8,
+    padding: 13,
+    borderRadius: 15,
+  },
+  goalContainer: {
+    flex: 5,
+    marginTop: 20,
+  },
+  goalItem: {
+    fontSize: 20,
+    color: '#000000',
+    padding: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: '#ccc',
+    fontWeight: 'bold',
+  },
+});
